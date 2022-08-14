@@ -6,10 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
-@ResponseBody
+@RestController
 public class MuffinController {
     @Autowired
     private MuffinService service;
@@ -18,22 +17,25 @@ public class MuffinController {
         this.service = service;
     }
 
+    @GetMapping("/muffins/")
     public ResponseEntity<Iterable<Muffin>> index() {
         return new ResponseEntity<>(service.index(), HttpStatus.OK);
     }
-
-    public ResponseEntity<Muffin> show(Long id) {
+    @GetMapping("/muffins/{id}")
+    public ResponseEntity<Muffin> show(@PathVariable Long id) {
         return new ResponseEntity<>(service.show(id), HttpStatus.OK);
     }
-
+    @PostMapping("/muffins/")
     public ResponseEntity<Muffin> create(Muffin baker) {
         return new ResponseEntity<>(service.create(baker), HttpStatus.CREATED);
     }
 
+    @PutMapping("/muffins/{id}")
     public ResponseEntity<Muffin> update(Long id, Muffin baker) {
         return new ResponseEntity<>(service.update(id, baker), HttpStatus.OK);
     }
 
+    @DeleteMapping("/muffins/")
     public ResponseEntity<Boolean> destroy(Long id) {
         return new ResponseEntity<>(service.delete(id), HttpStatus.OK);
     }
